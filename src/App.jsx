@@ -5,6 +5,7 @@ import {
   Volume2, Mic2, Sparkles, Image as ImageIcon, Upload, X,
   Maximize2, Settings, Film, Eye, Activity, ChevronRight, Download, RefreshCw
 } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const App = () => {
   // --- Quản lý trạng thái Studio ---
@@ -416,6 +417,7 @@ const App = () => {
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.1); }
       `}} />
+      <SpeedInsights />
     </div>
   );
 };

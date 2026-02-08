@@ -1,50 +1,13 @@
-/* LƯU Ý: Các cảnh báo gạch đỏ về @tailwind là bình thường trong trình soạn thảo.
-  Nó sẽ chạy tốt khi đẩy lên Vercel vì PostCSS sẽ xử lý các quy tắc này.
-*/
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  color-scheme: dark;
-}
-
-body {
-  margin: 0;
-  background-color: #050505;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-}
-
-/* Tùy chỉnh thanh cuộn cho phong cách Cyberpunk */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Hiệu ứng Monitor Glow */
-.monitor-glow {
-  box-shadow: 0 0 50px -12px rgba(168, 85, 247, 0.2);
-}
-
-/* Thanh tiến trình Render */
-.render-bar {
-  height: 2px;
-  background: linear-gradient(to right, #a855f7, #ec4899);
-  transition: width 0.1s ease-in-out;
-}
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veo Pro Studio - AI Cinematic Video Producer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

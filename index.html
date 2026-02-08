@@ -1,67 +1,50 @@
-<!DOCTYPE html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://lucide.dev/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- SEO & Social Sharing -->
-    <title>Veo Pro Studio | AI Cinematic Production</title>
-    <meta name="description" content="Trạm sản xuất trailer và MV người mẫu AI chuyên nghiệp." />
-    <meta property="og:title" content="Veo Pro Studio V3.2" />
-    <meta property="og:description" content="Tạo trailer người mẫu AI đỉnh cao với công nghệ đồng bộ nhạc." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=1200" />
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS chuẩn -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-          }
-        }
-      }
-    </script>
-    
-    <style>
-      /* Khử nháy trắng khi load trang và tạo hiệu ứng mượt mà */
-      html {
-        background-color: #050505;
-      }
-      body {
-        margin: 0;
-        background-color: #050505;
-        color: white;
-        opacity: 0;
-        animation: fadeIn 0.8s ease-out forwards;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      #root {
-        min-height: 100vh;
-      }
-      /* Tùy chỉnh scrollbar chuyên nghiệp */
-      ::-webkit-scrollbar { width: 5px; }
-      ::-webkit-scrollbar-track { background: #000; }
-      ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
-      ::-webkit-scrollbar-thumb:hover { background: #444; }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
+/* LƯU Ý: Các cảnh báo gạch đỏ về @tailwind là bình thường trong trình soạn thảo.
+  Nó sẽ chạy tốt khi đẩy lên Vercel vì PostCSS sẽ xử lý các quy tắc này.
+*/
 
-    <!-- Script chính -->
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #050505;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Tùy chỉnh thanh cuộn cho phong cách Cyberpunk */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Hiệu ứng Monitor Glow */
+.monitor-glow {
+  box-shadow: 0 0 50px -12px rgba(168, 85, 247, 0.2);
+}
+
+/* Thanh tiến trình Render */
+.render-bar {
+  height: 2px;
+  background: linear-gradient(to right, #a855f7, #ec4899);
+  transition: width 0.1s ease-in-out;
+}

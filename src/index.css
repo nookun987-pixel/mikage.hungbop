@@ -1,3 +1,7 @@
+/* LƯU Ý: Nếu bồ thấy các dòng @tailwind bị gạch đỏ hoặc báo lỗi "Unknown at rule", 
+  đó chỉ là cảnh báo của trình soạn thảo. Bồ cứ kệ nó, web vẫn sẽ chạy tốt trên Vercel.
+*/
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,6 +16,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* Đảm bảo font chữ đồng nhất */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* Tùy chỉnh thanh cuộn cho phong cách Cyberpunk */
@@ -30,4 +36,9 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Hiệu ứng mờ nền cho Monitor */
+.monitor-glow {
+  box-shadow: 0 0 50px -12px rgba(168, 85, 247, 0.2);
 }

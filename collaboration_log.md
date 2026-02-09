@@ -1,5 +1,173 @@
 
 
+### [GEMINI APPROVAL] - 15:43:45 9/2/2026
+Tuyệt vời! Cảm ơn bạn rất nhiều vì sự chuẩn bị nhanh chóng và việc cập nhật lên V4.5. Điều này giúp quá trình tích hợp diễn ra vô cùng suôn sẻ.
+
+Dưới đây là mã nguồn chi tiết của hai Hook `useVFXFilter` và `useImageUpload`. Bạn có thể tích hợp trực tiếp chúng vào cấu trúc Single File mới của mình:
+
+---
+
+## 1. Mã nguồn chi tiết: `useVFXFilter`
+
+Hook này quản lý trạng thái Filter đang hoạt động và cung cấp phương thức để áp dụng Filter mới. Nó trả về một đối tượng Style để dễ dàng gắn vào các phần tử JSX.
+
+```javascript
+import { useState, useMemo } from 'react';
+
+/**
+ * Hook quản lý trạng thái và áp dụng các bộ lọc VFX (Visual Effects).
+ *
+ * @param {string} initialFilter - Bộ lọc mặc định (ví dụ: 'none', 'blur', 'sepia').
+ * @returns {{
+ *   activeFilter: string,
+ *   applyFilter: (filterName: string) => void,
+ *   filterStyle: { filter: string }
+ * }}
+ */
+const useVFXFilter = (initialFilter = 'none') => {
+    const [activeFilter, setActiveFilter] = useState(initialFilter);
+
+    /**
+     * Hàm áp dụng một bộ lọc mới.
+     * @param {string} filterName - Tên bộ lọc cần áp dụng.
+     */
+    const applyFilter = (filterName) => {
+        // Có thể thêm logic kiểm tra tính hợp lệ của filterName tại đây
+        setActiveFilter(filterName);
+    };
+
+    /**
+     * Tạo đối tượng style CSS dựa trên filter đang hoạt động.
+     * Sử dụng useMemo để tránh re-render không cần thiết của style object.
+     */
+    const filterStyle = useMemo(() => {
+        if (activeFilter === 'none') {
+            return { filter: 'none' };
+        }
+        // Giả định rằng bộ lọc được áp dụng qua CSS standard hoặc SVG filter ID
+        return { filter: activeFilter };
+        // Ví dụ: return { filter: `url(#${activeFilter})` }; nếu dùng SVG Filters
+    }, [activeFilter]);
+
+    return {
+        activeFilter,
+        applyFilter,
+        filterStyle
+    };
+};
+
+// --- Hướng dẫn sử dụng:
+/*
+// Trong component chính:
+const { activeFilter, applyFilter, filterStyle } = useVFXFilter('grayscale(50%)');
+
+<div style={{ ...filterStyle, width: '200px', height: '200px' }}>
+    // Nội dung áp dụng filter
+</div>
+<button onClick={() => applyFilter('blur(5px)')}>Apply Blur</button>
+<button onClick={() => applyFilter('none')}>Clear Filter</button>
+*/
+```
+
+---
+
+## 2. Mã nguồn chi tiết: `useImageUpload`
+
+Hook này quản lý việc tải lên hình ảnh, tạo URL xem trước (preview URL), và tự động dọn dẹp bộ nhớ khi không cần thiết.
+
+```javascript
+import { useState, useEffect, useCallback } from 'react';
+
+/**
+ * Hook quản lý quá trình tải lên hình ảnh và tạo URL xem trước.
+ *
+ * @returns {{
+ *   imageFile: File | null,
+ *   previewUrl: string | null,
+ *   handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+ *   clearImage: () => void
+ * }}
+ */
+const useImageUpload = () => {
+    const [imageFile, setImageFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
+
+    /**
+     * Xử lý sự kiện khi người dùng chọn file mới.
+     * Tạo Object URL cho mục đích xem trước.
+     */
+    const handleImageChange = useCallback((event) => {
+        const file = event.target.files?.[0];
+
+        if (file) {
+            // Dọn dẹp URL cũ nếu có
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+
+            setImageFile(file);
+            // Tạo Object URL mới (Rất nhanh và hiệu quả cho việc xem trước)
+            setPreviewUrl(URL.createObjectURL(file));
+        }
+    }, [previewUrl]);
+
+    /**
+     * Dọn dẹp trạng thái và URL.
+     */
+    const clearImage = useCallback(() => {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+        }
+        setImageFile(null);
+        setPreviewUrl(null);
+    }, [previewUrl]);
+
+    /**
+     * Dọn dẹp Object URL khi component unmount hoặc khi previewUrl thay đổi.
+     * Đây là bước quan trọng để tránh rò rỉ bộ nhớ.
+     */
+    useEffect(() => {
+        return () => {
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]); // Tái chạy dọn dẹp mỗi khi URL thay đổi
+
+    return {
+        imageFile,
+        previewUrl,
+        handleImageChange,
+        clearImage,
+    };
+};
+
+// --- Hướng dẫn sử dụng:
+/*
+// Trong component chính:
+const { imageFile, previewUrl, handleImageChange, clearImage } = useImageUpload();
+
+<div>
+    <input type="file" accept="image/*" onChange={handleImageChange} />
+
+    {previewUrl && (
+        <>
+            <img src={previewUrl} alt="Preview" style={{ maxWidth: '300px' }} />
+            <button onClick={clearImage}>Xóa ảnh</button>
+            <p>File name: {imageFile.name}</p>
+        </>
+    )}
+</div>
+*/
+```
+
+---
+
+Hai Hook này đã sẵn sàng để tích hợp vào bản V4.5 của bạn. Hãy cho tôi biết nếu bạn cần bất kỳ điều chỉnh hoặc hướng dẫn nào thêm trong quá trình tích hợp!
+
+---
+
+
 ### [GEMINI REFACTOR LOG] - 15:32:16 9/2/2026
 **CHỦ ĐỀ:** RE: Refactoring AI Studio X - Chiến Lược Phân Tích Component và Bước Tiếp Theo (Custom Hooks)
 
